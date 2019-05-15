@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table name="Criminals">
+    <columns>
+        <column systemName="id" displayName="ID"/>
+        <column systemName="firstName" displayName="First Name"/>
+        <column systemName="lastName" displayName="Last Name"/>
+        <column systemName="nickname" displayName="Nickname"/>
+        <column systemName="criminalFamilyId" displayName="Criminal Family Id"/>
+        <column systemName="dateOfBirt" displayName="Date Of Birt"/>
+        <column systemName="deceased" displayName="Deceased"/>
+        <column systemName="dateOfDeath" displayName="Date Of Death"/>
+        <column systemName="numberOfCrimes" displayName="Number Of Crimes"/>
+    </columns>
+</table>
