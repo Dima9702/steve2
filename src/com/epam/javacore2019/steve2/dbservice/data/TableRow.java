@@ -32,4 +32,10 @@ public class TableRow {
         return values;
     }
 
+    @Override
+    public String toString() {
+        return "TableRow{" +
+                "values=" + values +
+                '}';
+    }
 }

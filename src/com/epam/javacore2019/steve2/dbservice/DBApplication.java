@@ -1,13 +1,19 @@
 package com.epam.javacore2019.steve2.dbservice;
 
-import com.epam.javacore2019.steve2.dbservice.data.QueryResult;
+import com.epam.javacore2019.steve2.dbservice.data.Table;
+import com.epam.javacore2019.steve2.dbservice.data.query.QueryResult;
 import com.epam.javacore2019.steve2.dbservice.dbstate.DBState;
 import com.epam.javacore2019.steve2.dbservice.dbstate.DBStateInit;
 import com.epam.javacore2019.steve2.dbservice.dbstate.DBStateRunning;
 import com.epam.javacore2019.steve2.dbservice.dbstate.DBStateStop;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum DBApplication {
     INSTANCE;
+
+    private Map<String, Table> tables = new HashMap<>();
 
     public static final String DATA_ENCRYPTION_LEVEL = "LOW";
     private DBState currentState;
@@ -24,7 +30,7 @@ public enum DBApplication {
     }
 
     public QueryResult query(String query) {
-        return null;
+        return currentState.onQuery(query);
     }
 
     public String getStateName() {
@@ -41,6 +47,14 @@ public enum DBApplication {
         }
         currentState = state;
         currentState.enter();
+    }
+
+    public void addTable(String tableName, Table table) {
+        tables.put(tableName, table);
+    }
+
+    public Table getTable(String tableName) {
+        return tables.get(tableName);
     }
 
 }

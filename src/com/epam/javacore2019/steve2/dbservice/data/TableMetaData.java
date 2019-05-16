@@ -53,6 +53,15 @@ public class TableMetaData {
         }
     }
 
+    public int getColumnIndex(String columnName) {
+        for (TableColumn c : columns) {
+            if (c.getName().equals(columnName)) {
+                return columns.indexOf(c);
+            }
+        }
+        return -1;
+    }
+
     public void addColumn(TableColumn column) {
         this.columns.add(column);
     }

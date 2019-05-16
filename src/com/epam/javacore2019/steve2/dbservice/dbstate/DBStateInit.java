@@ -35,6 +35,7 @@ public class DBStateInit extends DBState {
                 TableMetaData metaData = TableMetaData.loadFromFile(filePath);
                 Table table = new Table(metaData);
                 table.load();
+                DBApplication.INSTANCE.addTable(metaData.getTableName(), table);
             }
         });
     }

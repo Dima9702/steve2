@@ -1,5 +1,7 @@
 package com.epam.javacore2019.steve2.dbservice.dbstate;
 
+import com.epam.javacore2019.steve2.dbservice.data.query.QueryResult;
+
 public abstract class DBState {
 
     protected String name;
@@ -20,8 +22,8 @@ public abstract class DBState {
         System.out.println("Basic entering state");
     }
 
-    public void onQuery(String query) {
-        System.out.println("Basic query handling");
+    public QueryResult onQuery(String query) {
+        return new QueryResult(QueryResult.Status.FAILURE, String.format("UNABLE TO PROCESS QUERY: %s", query));
     }
 
     public void exit() {

@@ -1,40 +1,60 @@
 package com.epam.javacore2019.steve2.appserver;
 
-import com.epam.javacore2019.steve2.webservice.WebClientApplication;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 
-public class CriminalsApiHandler implements HttpHandler {
-
-    public static final String LIST_REQUEST = "^/api/criminals/$"; //"/criminals"
-    public static final String PERSON_REQUEST = "^/api/criminals/([0-9]+)$"; //"/criminals/{n}"
+public class CriminalsApiHandler implements HttpHandler  {
 
     @Override
-    public void handle(HttpExchange httpExchange) throws IOException {
-        String path = httpExchange.getRequestURI().getPath();
-        httpExchange.getResponseHeaders().put("Content-Type", Arrays.asList(new String[]{"text/plain"}));
-        httpExchange.sendResponseHeaders(200, 0);
-        OutputStream os = httpExchange.getResponseBody();
-        String response = "";
-
-        if (path.matches(LIST_REQUEST)) {
-            response = "LIST";
-            os.write(response.getBytes());
-            //httpExchange.sendResponseHeaders(200, 0);
-        } else if (path.matches(PERSON_REQUEST)){
-            response = "PERSON";
-            os.write(response.getBytes());
-            //httpExchange.sendResponseHeaders(200, 0);
-        } else {
-            httpExchange.sendResponseHeaders(400, 0);
+    public void handle(HttpExchange httpExchange) {
+        try {
+            String dbResult = requestDB();
+            httpExchange.getResponseHeaders().put("Content-Type", Arrays.asList(new String[]{"text/plain"}));
+            httpExchange.sendResponseHeaders(200, 0);
+            OutputStream os = httpExchange.getResponseBody();
+            os.write(dbResult.getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpExchange.close();
         }
+    }
+
+    private String requestDB() throws Exception {
+        URL url = new URL("http://localhost:6701/api/query");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        OutputStream os = connection.getOutputStream();
+        String query =
+            "SELECT " +
+                "id," +
+                "firstName," +
+                "lastName," +
+                "nickname," +
+                "criminalFamilyId," +
+                "dateOfBirth," +
+                "deceased," +
+                "dateOfDeath," +
+                "numberOfCrimes" +
+            " FROM Criminals";
+//            " WHERE"+
+//            " id=2";
+        os.write(query.getBytes());
         os.close();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String dbResult = "";
+        String line;
+        while ((line = br.readLine()) != null) {
+            dbResult += line;
+        }
+        br.close();
+        return dbResult;
     }
 }

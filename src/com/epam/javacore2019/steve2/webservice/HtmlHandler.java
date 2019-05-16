@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Date;
 
 public class HtmlHandler implements HttpHandler {
 
@@ -14,8 +17,6 @@ public class HtmlHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-
-
         String path = httpExchange.getRequestURI().getPath();
         String response = "";
         if (path.matches(HTML_FORMAT)) {
@@ -26,19 +27,18 @@ public class HtmlHandler implements HttpHandler {
         File file = new File("webclient" + path);
         response += "<br>File Exists: " + file.exists();
         byte[] fileBytes = null;
-
-        if(file.exists()){
+        if (file.exists()) {
             fileBytes = Utils.readBytes("webclient" + path);
         }
 
+        //TODO - temporarily, for demo
         String result = new String(fileBytes);
         result = result.replace("{{time}}", LocalTime.now().toString());
 
-
-        httpExchange.getResponseHeaders().set("Content-Type", "text/html");
+        httpExchange.getResponseHeaders().put("Content-Type", Arrays.asList(new String[]{"text/html"}));
         httpExchange.sendResponseHeaders(200, 0);
         OutputStream os = httpExchange.getResponseBody();
-        //os.write(("Html Handler: " + response).getBytes());
+        //  os.write(("Html Handler: " + response).getBytes());
         if (fileBytes != null) {
             os.write(result.getBytes());
         }
