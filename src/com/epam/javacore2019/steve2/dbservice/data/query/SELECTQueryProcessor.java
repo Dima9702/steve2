@@ -22,8 +22,8 @@ public class SELECTQueryProcessor implements QueryProcessor {
 
     @Override
     public QueryResult process(String query) {
-  //      Pattern pattern = Pattern.compile(OP_GROUP + SPACE + FLD_GROUP + SPACE + FROM_GROUP + SPACE + TBL_GROUP + SPACE  + WHERE_GROUP + SPACE + ID_GROUP);
-        Pattern pattern = Pattern.compile(OP_GROUP + SPACE + FLD_GROUP + SPACE + FROM_GROUP + SPACE + TBL_GROUP);
+        Pattern pattern = Pattern.compile(OP_GROUP + SPACE + FLD_GROUP + SPACE + FROM_GROUP + SPACE + TBL_GROUP + SPACE  + WHERE_GROUP + SPACE + ID_GROUP);
+      //  Pattern pattern = Pattern.compile(OP_GROUP + SPACE + FLD_GROUP + SPACE + FROM_GROUP + SPACE + TBL_GROUP);
         QueryResult queryResult = new QueryResult();        //результат запроса
         Matcher matcher = pattern.matcher(query);
         queryResult.status = QueryResult.Status.OK;         //все хорошо, если пойдет не так - поменяем
@@ -31,7 +31,6 @@ public class SELECTQueryProcessor implements QueryProcessor {
             String[] fields = matcher.group(3).split(",");      //название полей
             String tableName = matcher.group(7);                        // название таблички
          //   String id = matcher.group(11);
-        //    String id = "1";
             Table table = DBApplication.INSTANCE.getTable(tableName);       // достаем табл из реестра таблиц
             if (table != null) {
            //     List<List<String>> result = table.collect(fields,id);              // наш ответ 2х мерный как и сама таблица

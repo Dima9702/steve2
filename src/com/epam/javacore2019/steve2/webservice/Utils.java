@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 
 public class Utils {
 
-    public static byte[] readBytes(String fileName) {
+    public static byte[] readBytes(String fileName) {               //чтение по байтам для потоков ввода/вывода
         byte[] result = null;
         FileInputStream fis = null;
         try {

@@ -6,24 +6,23 @@ public class BadApplication {
 
     //ABOUT LAST ID;
 
-    public void start() {
+    public static void start() {
 
         final BadClass criminals = new BadClass("Criminals");
 
         final BadClass crimeFamily = new BadClass("Crime Family");
 
-        new Thread(new Runnable() {
-            public void run() { criminals.readDataFromAnotherObject(crimeFamily); }
+        new Thread(new Runnable() { public void run() { criminals.readDataFromAnotherObject(crimeFamily); }
         }).start();
 
         new Thread(new Runnable() {
             public void run() { crimeFamily.readDataFromAnotherObject(criminals); }
         }).start();
 
-       // startTimer();
+        startTimer();
     }
 
-    public void startTimer() {
+    public static void startTimer() {
 
         new Thread(new Runnable() {
             @Override

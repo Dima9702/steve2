@@ -21,6 +21,5 @@ public class Template {
         }
         return templateText;
     }
-    //map.put("firstName", "Vasia");
-    //map.put("lastname", "Petrov");
+
 }

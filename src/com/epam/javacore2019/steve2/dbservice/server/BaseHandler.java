@@ -12,7 +12,7 @@ public class BaseHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("BaseHandler entering: " + httpExchange.getHttpContext().getPath());
         String noWay = "NO WAY!";
-        httpExchange.sendResponseHeaders(200, noWay.length());
+        httpExchange.sendResponseHeaders(200, noWay.length());          //посылаем заголовки ответа с кодом 200 - успех и сообщением
         OutputStream os = httpExchange.getResponseBody();
         os.write("NO WAY!".getBytes());
         httpExchange.close();
